@@ -17,6 +17,7 @@ communal_cards <- c()
 flop <- communal_card_reveal("flop", communal_cards)
 turn <- communal_card_reveal("turn", flop$hand)
 river <- communal_card_reveal("river", turn$hand)
+communal_cards <- river$hand
 
 # check for hand values:
 # consider possible hands (i.e. combinations of private and communal cards to make a hand of 5 cards).
@@ -26,7 +27,7 @@ combinations <- function(size, choose) {
   d[rowSums(d) == choose,]
 }
 
-available_cards <- c(hand, communal_cards)
+available_cards <- append(hand, communal_cards)
 possible_card_selections <- combinations(7,5)
 possible_hands <- lapply(1:nrow(possible_card_selections),
                         function(row){ available_cards[as.logical(possible_card_selections[row, ])]

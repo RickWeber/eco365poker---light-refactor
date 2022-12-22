@@ -32,7 +32,7 @@ deal_cards <- function(deck = make_deck(), n = 2, hand = list()){
   drawn_cards <- sample(available_cards, n)
   out_hand <- list()
   for(i in 1:n){
-    card <- drawn_cards[i - length(hand)]
+    card <- drawn_cards[i]
     suit <- ifelse(card <= 13, "♥hearts♥",
                   ifelse(card <= 26, "♠spades♠",
                         ifelse(card <= 39, "♣clubs♣", "♦diamonds♦")))
