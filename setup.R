@@ -38,7 +38,8 @@ deal_cards <- function(deck = make_deck(), n = 2, hand = c()){
     hand <- c(hand, c(suit, face))
     deck[card] <- 0 # "remove" drawn card from deck
   }
-  list(deck = deck, hand = hand) # pass back an updated deck
+  list(deck = deck, hand = hand) # pass back an updated deck and hand
+  # Note: this function can also be used for communal cards
 }
 
 display_hand <- function(hand){
