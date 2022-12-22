@@ -1,12 +1,7 @@
 #test for flush in all cards revealed##################
 check_for_flush <- function(hand){
-  suits <- c("♥hearts♥", "♠spades♠", "♣clubs♣", "♦diamonds♦")
-  for(suit in suits){
-    count_with_this_suit = sum(sapply(hand, function(c) c == suit))
-    if(count_with_this_suit >= 5){
-      message("You have a flush in:", suit)
-    }
-  }
+  suits_in_hand <- sapply(hand, function(c) c[1])
+  max(table(suits_in_hand)) == 5
 }
 
 check_for_flush(testtotal)
