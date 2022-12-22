@@ -3,9 +3,14 @@
 #turn = 1 more card revealed
 #river = 1 more card reveal, final card
 
-cards <- matrix(2:14, nrow = 13, ncol = 4)               #creating a matrix with 52 values, the column(4) are suits, the rows(13) are card values
-colnames(cards) <- c("♥hearts♥", "♠spades♠", "♦diamonds♦", "♣clubs♣")
-rownames(cards) <- c(2:10, "jack", "queen", "king", "aces")
+make_deck <- function(num_decks = 1){
+  cards <- matrix(2:14, nrow = 13, ncol = 4)               #creating a matrix with 52 values, the column(4) are suits, the rows(13) are card values
+  colnames(cards) <- c("♥hearts♥", "♠spades♠", "♦diamonds♦", "♣clubs♣")
+  rownames(cards) <- c(2:10, "jack", "queen", "king", "aces")
+  rep(cards, num_decks)
+}
+
+cards <- make_deck()
 
 checkhigh<- 0
 
