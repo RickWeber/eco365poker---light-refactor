@@ -27,23 +27,40 @@ make_deck <- function(){
   cards
 }
 
-deal_cards <- function(deck = make_deck(), n = 2, hand = c()){
-  available_cards <- (1:length(deck))[deck > 0] # don't draw 
+deal_cards <- function(deck = make_deck(), n = 2, hand = list()){
+  available_cards <- (1:length(deck))[deck > 0] # don't draw used cards
   drawn_cards <- sample(available_cards, n)
-  for(card in drawn_cards){
+  out_hand <- list()
+  for(i in 1:n){
+    card <- drawn_cards[i - length(hand)]
     suit <- ifelse(card <= 13, "♥hearts♥",
                   ifelse(card <= 26, "♠spades♠",
                         ifelse(card <= 39, "♣clubs♣", "♦diamonds♦")))
     face <- deck[card]
-    hand <- c(hand, c(suit, face))
+    out_hand[[i]] <- c(suit, face)
+  }
+  hand <- append(hand, out_hand)
+  for(card in drawn_cards){
     deck[card] <- 0 # "remove" drawn card from deck
   }
   list(deck = deck, hand = hand) # pass back an updated deck and hand
   # Note: this function can also be used for communal cards
 }
+# Turn over communal cards
+communal_card_reveal <- function(round = "flop", communal_cards = c()){
+  continue_prompt(paste0("Are you ready for the ", round, "?"))
+  deal <- deal_cards(cards, ifelse(round == "flop", 3, 1), communal_cards)
+  cards <<- deal$deck # <<- lets us reach into outer scope to update our deck
+  communal_cards <- deal$hand
+  print("Here are the communal cards so far:")
+  display_hand(communal_cards)
+  source("checkfold.R")
+  deal
+}
+
 
 display_hand <- function(hand){
-  print("Your hand is:")
+  #print("Your hand is:")
   for(card in hand){
     message("---->", card[2], " of ", card[1], "<----")
   }

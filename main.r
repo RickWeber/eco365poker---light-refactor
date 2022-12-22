@@ -13,25 +13,10 @@ display_hand(hand)
 
 source("checkfold.R")
 
-# Turn over communal cards
-communal_card_reveal <- function(round = "flop", communal_cards = c()){
-  continue_prompt(paste0("Are you ready for the ", round, "?"))
-  deal <- deal_cards(cards, ifelse(round == "flop", 3, 1), communal_cards)
-  cards <- deal$deck
-  communal_cards <- deal$hand
-  print("Here are the communal cards so far:")
-  display_hand(communal_cards)
-  source("checkfold.R")
-  deal
-}
-
 communal_cards <- c()
-flop <- communal_card_reveal("flop", communal_cards, communal_cards)
-cards <- flop$deck
-turn <- communal_card_reveal("turn", communal_cards, flop$hand)
-cards <- turn$deck
-river <- communal_card_reveal("river", communal_cards, turn$hand)
-cards <- river$deck
+flop <- communal_card_reveal("flop", communal_cards)
+turn <- communal_card_reveal("turn", flop$hand)
+river <- communal_card_reveal("river", turn$hand)
 
 # check for hand values:
 # consider possible hands (i.e. combinations of private and communal cards to make a hand of 5 cards).
@@ -40,6 +25,7 @@ combinations <- function(size, choose) {
   d <- do.call("expand.grid", rep(list(0:1), size))
   d[rowSums(d) == choose,]
 }
+
 available_cards <- c(hand, communal_cards)
 possible_card_selections <- combinations(7,5)
 possible_hands <- lapply(1:nrow(possible_card_selections),
@@ -74,10 +60,12 @@ four_of_kind <- function(hand){
   
 }
 # full house
-flush <- function(hand){
-  
-}
 # flush
+flush <- function(hand){
+  suit <- hand[[1]][2]
+  suits <- sapply(hand, function(c) c[2])
+  all(suits == suit)
+}
 # straight
 # 3 of a kind
 # two pair
