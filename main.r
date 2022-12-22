@@ -3,16 +3,12 @@
 #turn = 1 more card revealed
 #river = 1 more card reveal, final card
 
-make_deck <- function(num_decks = 1){
+make_deck <- function(){
   cards <- matrix(2:14, nrow = 13, ncol = 4)               #creating a matrix with 52 values, the column(4) are suits, the rows(13) are card values
   colnames(cards) <- c("♥hearts♥", "♠spades♠", "♦diamonds♦", "♣clubs♣")
   rownames(cards) <- c(2:10, "jack", "queen", "king", "aces")
-  rep(cards, num_decks)
+  cards
 }
-
-cards <- make_deck()
-
-checkhigh<- 0
 
 #deal hand############################################################################################
 ######################################################################################################
@@ -38,29 +34,35 @@ continue_prompt <- function(prompt = "Are you ready to continue?"){
 
 continue_prompt()
 
-
-hand_face <- sample(rownames(cards),1)    #gets the first of 2 cards in the hand, which is the row names in the matrix "cards"
-hand_suit <- sample(colnames(cards),1)    #gets the suit, which is the column names in the matrix "cards"
-
-handdisplay <- c(hand_face,hand_suit)
-cards[hand_face,hand_suit] <- 0                   #sets the value to 0, for which ever card comes up, in the matrix
-
-while (cards[hand_face,hand_suit]==0){             #scans for 0s so previously drawn hands will not be drawn again 
-                                    #since they are set to 0 in the previous line
-hand_face <- sample(rownames(cards),1)
-
-hand_suit <- sample(colnames(cards),1)
-
+deal_cards <- function(deck = make_deck(), n = 2, hand = c()){
+  available_cards <- (1:length(deck))[deck > 0] # don't draw 
+  drawn_cards <- sample(available_cards, n)
+  for(card in drawn_cards){
+    suit <- ifelse(card <= 13, "♥hearts♥",
+                  ifelse(card <= 26, "♠spades♠",
+                        ifelse(card <= 39, "♣clubs♣", "♦diamonds♦")))
+    face <- deck[card]
+    hand <- c(hand, c(suit, face))
+    deck[card] <- 0 # "remove" drawn card from deck
+  }
+  list(deck = deck, hand = hand) # pass back an updated deck
 }
 
-handdisplay <- c(hand_face,hand_suit, handdisplay)   #gets the 2nd card/suit of the hand
+display_hand <- function(hand){
+  print("Your hand is:")
+  for(card in hand){
+    message("---->", card[2], " of ", card[1], "<----")
+  }
+}
 
-print("your HAND is: ")
-message("---->   ",handdisplay[1], " of ",handdisplay[2],"   <----")
-message("---->   ",handdisplay[3], " of ",handdisplay[4],"   <----")
+cards <- make_deck()
 
-cards[hand_face,hand_suit] <- 0
+checkhigh<- 0
 
+initial_deal <- deal_cards(cards, 2, c())
+cards <- initial_deal$deck
+hand <- initial_deal$hand
+display_hand(hand)
 
 source("checkfold.R")
 
