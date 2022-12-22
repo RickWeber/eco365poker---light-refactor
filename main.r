@@ -16,24 +16,28 @@ checkhigh<- 0
 
 #deal hand############################################################################################
 ######################################################################################################
-user.input <- function(prompt) {
-
+user_input <- function(prompt) {
   if (interactive()) {
-    return(readline(prompt))}
-  else {cat(prompt)
-       return(readLines("stdin",n=1))
-       }
+    return(readline(prompt))
+  } else {
+    cat(prompt)
+    return(readLines("stdin",n=1))
   }
-
-x <- ""
-while(!(x %in% c("yes", "y"))) {
- 
-  x <-user.input("are you ready to deal your hand? enter 'yes' or 'y' when ready: ") 
-   print(x)
- if (!(x %in% c("yes", "y"))) {
-   print("thats not valid")
-   }
 }
+
+continue_prompt <- function(prompt = "Are you ready to continue?"){
+  x <- ""
+  while(!(tolower(x) %in% c("yes", "y"))){
+    x <-user.input(prompt) 
+    if (!(x %in% c("yes", "y"))) {
+      print("Please enter a valid response.")
+    }
+  }
+  x
+}
+
+continue_prompt()
+
 
 hand_face <- sample(rownames(cards),1)    #gets the first of 2 cards in the hand, which is the row names in the matrix "cards"
 hand_suit <- sample(colnames(cards),1)    #gets the suit, which is the column names in the matrix "cards"
