@@ -66,24 +66,8 @@ source("checkfold.R")
 
 #flop############################################################################################
 #################################################################################################
-user.input <- function(prompt) {
 
-  if (interactive()) {
-    return(readline(prompt))}
-  else {cat(prompt)
-       return(readLines("stdin",n=1))
-       }
-  }
-
-x <- ""
-while(!(x %in% c("yes", "y"))) {
- 
-  x <-user.input("are you ready for the FLOP? enter 'yes' or 'y' when ready: ") 
-   print(x)
- if (!(x %in% c("yes", "y"))) {
-   print("thats not valid")
-   }
-}
+continue_prompt("Are you ready for the flop?")
 
 
 #flopcard1#########################
@@ -148,24 +132,7 @@ source("checkfold.R")
 
 #the turn############################################################################################
 #################################################################################################
-user.input <- function(prompt) {
-
-  if (interactive()) {
-    return(readline(prompt))}
-  else {cat(prompt)
-       return(readLines("stdin",n=1))
-       }
-  }
-
-x <- ""
-while(!(x %in% c("yes", "y"))) {
- 
-  x <-user.input("are you ready for the TURN? enter 'yes' or 'y' when ready: ") 
-   print(x)
- if (!(x %in% c("yes", "y"))) {
-   print("thats not valid")
-   }
-}
+continue_prompt("Are you ready for the turn?")
 
 turn <- sample(rownames(cards),1)
 turnsuit <- sample(colnames(cards),1)
@@ -190,24 +157,7 @@ source("checkfold.R")
 
 #the riverr############################################################################################
 #################################################################################################
-user.input <- function(prompt) {
-
-  if (interactive()) {
-    return(readline(prompt))}
-  else {cat(prompt)
-       return(readLines("stdin",n=1))
-       }
-  }
-
-x <- ""
-while(!(x %in% c("yes", "y"))) {
- 
-  x <-user.input("are you ready for the RIVER? enter 'yes' or 'y' when ready: ") 
-   print(x)
- if (!(x %in% c("yes", "y"))) {
-   print("thats not valid")
-   }
-}
+continue_prompt("Are you ready for the river?")
 
 river <- sample(rownames(cards),1)
 riversuit <- sample(colnames(cards),1)
