@@ -24,7 +24,7 @@ user_input <- function(prompt) {
 continue_prompt <- function(prompt = "Are you ready to continue?"){
   x <- ""
   while(!(tolower(x) %in% c("yes", "y"))){
-    x <-user.input(prompt) 
+    x <-user_input(prompt) 
     if (!(x %in% c("yes", "y"))) {
       print("Please enter a valid response.")
     }
