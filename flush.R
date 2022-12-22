@@ -9,6 +9,8 @@ check_for_flush <- function(hand){
   }
 }
 
+check_for_flush(testtotal)
+
 # Old code:
 #ttt <- "♥hearts♥"
 #sss<- length(testtotal)
