@@ -1,11 +1,12 @@
+# setup function
 source('setup.R')
+# hand evaluation functions
+source("flush.R")
 # Start game
 continue_prompt()
 # get a deck of cards
 cards <- make_deck()
-# Not sure what this variable is supposed to do
-checkhigh<- 0
-# 
+# deal cards
 initial_deal <- deal_cards(cards, 2, c())
 cards <- initial_deal$deck
 hand <- initial_deal$hand
@@ -58,19 +59,29 @@ straight_flush <- function(hand){
 }
 # 4 of a kind
 four_of_kind <- function(hand){
-  
+  faces <- sapply(hand, function(c) c[2])
+  max(table(faces) == 4)
 }
 # full house
 # flush
 flush <- function(hand){
-  suit <- hand[[1]][2]
-  suits <- sapply(hand, function(c) c[2])
+  suit <- hand[[1]][1]
+  suits <- sapply(hand, function(c) c[1])
   all(suits == suit)
 }
+#check_for_flush(hand)
 # straight
 # 3 of a kind
+three_of_kind <- function(hand){
+  faces <- sapply(hand, function(c) c[2])
+  max(table(faces) == 3)
+}
 # two pair
 # pair
+two_of_kind <- function(hand){
+  faces <- sapply(hand, function(c) c[2])
+  max(table(faces) == 2)
+}
 # high card
 
 source("matches_in_flop.R")
@@ -82,7 +93,6 @@ source("matchesTOTAL.R")
 
 #test for flush in all cards revealed################## flush is 5 of the same suit
 
-source("flush.R")
 
 #test for straight #########################################################################################################################
 ############################################################################################################################################
